@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Chat app</title>
+<script type="text/javascript" src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div id="messageDiv"><br/></div>
+<hr/>
+<input id="NAMEInput" placeholder="Name"/>
+<input id="messageInput" placeholder="Message..."/>
+<button id="send" onclick="SendMessage()">send</button>
+<script>
+var messageRef = new Firebase('https://chat-99db7.firebaseio.com');
+
+function SendMessage(){
+
+    var NAME = $('#NAMEInput').val();
+    var text = $('#messageInput').val();
+    messageRef.push({NAME:NAME, text:text});
+
+  $('#messageInput').val();
+   }
+
+
+
+messageRef.on('child_added',function(snapshot){
+   var message = snapshot.val();
+  console.log(message);
+  document.getElementById('messageDiv').innerHTML += message.NAME+': '+message.text+'<br/>';
+
+});
+
+</script>
+</body>
